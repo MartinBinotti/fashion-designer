@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --as-bg-radial-a: rgba(255, 229, 203, 0.62);
+  --as-bg-radial-b: rgba(183, 150, 119, 0.28);
+  --as-bg-grad-start: #fbf7f0;
+  --as-bg-grad-mid: #f4ecdf;
+  --as-bg-grad-end: #eadcc9;
+  --as-text: #000000;
+  --as-text-muted: rgba(0, 0, 0, 0.82);
+  --as-text-soft: rgba(0, 0, 0, 0.62);
+  --as-border: rgba(75, 58, 48, 0.2);
+  --as-border-strong: rgba(57, 41, 33, 0.4);
+  --as-glass: rgba(255, 255, 255, 0.72);
+  --as-glass-soft: rgba(255, 255, 255, 0.46);
+  --as-panel: rgba(250, 241, 230, 0.72);
+  --as-input-bg: rgba(255, 255, 255, 0.8);
+  --as-inverse-bg: #1f1815;
+  --as-inverse-text: #f9f0e4;
+  --as-glow-a: rgba(229, 196, 165, 0.66);
+  --as-glow-b: rgba(170, 136, 109, 0.52);
+  color-scheme: light;
+}
+
+html.theme-light {
+  color-scheme: light;
+}
+
+html.theme-dark {
+  --as-bg-radial-a: rgba(241, 206, 173, 0.2);
+  --as-bg-radial-b: rgba(120, 88, 65, 0.2);
+  --as-bg-grad-start: #151010;
+  --as-bg-grad-mid: #1e1714;
+  --as-bg-grad-end: #291e1a;
+  --as-text: #efe4d5;
+  --as-text-muted: rgba(239, 228, 213, 0.78);
+  --as-text-soft: rgba(239, 228, 213, 0.52);
+  --as-border: rgba(239, 228, 213, 0.2);
+  --as-border-strong: rgba(239, 228, 213, 0.4);
+  --as-glass: rgba(30, 24, 22, 0.78);
+  --as-glass-soft: rgba(45, 36, 32, 0.6);
+  --as-panel: rgba(62, 47, 40, 0.5);
+  --as-input-bg: rgba(36, 29, 26, 0.78);
+  --as-inverse-bg: #f2e4d2;
+  --as-inverse-text: #211a16;
+  --as-glow-a: rgba(167, 124, 94, 0.3);
+  --as-glow-b: rgba(125, 99, 78, 0.25);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 15% 12%, var(--as-bg-radial-a), transparent 34%),
+    radial-gradient(circle at 85% 0%, var(--as-bg-radial-b), transparent 28%),
+    linear-gradient(
+      132deg,
+      var(--as-bg-grad-start) 0%,
+      var(--as-bg-grad-mid) 52%,
+      var(--as-bg-grad-end) 100%
+    );
+  color: var(--as-text);
+  transition:
+    background 320ms ease,
+    color 220ms ease,
+    border-color 220ms ease;
+}
+
+#root {
+  min-height: 100vh;
+}
