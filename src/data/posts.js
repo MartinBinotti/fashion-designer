@@ -1,4 +1,11 @@
-import { getPortfolioImage } from "./media";
+import moda1Small from "../assets/img/moda1-s.webp";
+import moda2Small from "../assets/img/moda2-s.webp";
+import moda3Small from "../assets/img/moda3-s.webp";
+import moda4Small from "../assets/img/moda4-s.webp";
+import moda5Small from "../assets/img/moda5-s.webp";
+import moda6Small from "../assets/img/moda6-s.webp";
+import moda7Small from "../assets/img/moda7-s.webp";
+import moda9Image from "../assets/img/moda9.webp";
 
 export const posts = [
   {
@@ -6,7 +13,7 @@ export const posts = [
     title: "Procesos creativos",
     category: "Brief",
     season: "Primavera 2026",
-    image: getPortfolioImage(0),
+    image: moda1Small,
     tone: "sand",
     to: "/metodo-creativo/procesos-creativos",
     excerpt:
@@ -17,7 +24,8 @@ export const posts = [
     title: "Colecciones",
     category: "Serie",
     season: "Invierno 2026",
-    image: getPortfolioImage(1),
+    image: moda2Small,
+    imagePosition: "center 18%",
     tone: "ink",
     to: "/metodo-creativo/colecciones",
     excerpt:
@@ -28,7 +36,7 @@ export const posts = [
     title: "Bocetaje",
     category: "Sketchbook",
     season: "2026",
-    image: getPortfolioImage(2),
+    image: moda3Small,
     tone: "plum",
     to: "/metodo-creativo/bocetaje",
     excerpt:
@@ -39,7 +47,7 @@ export const posts = [
     title: "Sistemas de Color SS26",
     category: "Direccion Creativa",
     season: "Verano 2026",
-    image: getPortfolioImage(3),
+    image: moda4Small,
     tone: "olive",
     excerpt:
       "Paletas calibradas para campanas de temporada con foco en piel, volumen y contraste fotografico."
@@ -49,7 +57,7 @@ export const posts = [
     title: "Estudio de Accesorios",
     category: "Accesorios",
     season: "Otono 2026",
-    image: getPortfolioImage(4),
+    image: moda5Small,
     tone: "clay",
     excerpt:
       "Serie de prototipos en cuero y tejido tecnico para completar siluetas editoriales."
@@ -59,9 +67,29 @@ export const posts = [
     title: "Frames de Campana",
     category: "Campana",
     season: "2026",
-    image: getPortfolioImage(5),
+    image: moda6Small,
     tone: "coal",
     excerpt:
       "Direccion de arte para contenido de marca con ritmo visual limpio y foco en actitud."
+  },
+  {
+    id: "atelier-notes",
+    title: "Atelier Notes",
+    category: "Proceso",
+    season: "2026",
+    image: moda7Small,
+    tone: "ink",
+    excerpt:
+      "Registro de fitting, ajustes y acabados finales antes de salida editorial."
+  },
+  {
+    id: "lookbook-snapshot",
+    title: "Lookbook Snapshot",
+    category: "Lookbook",
+    season: "2026",
+    image: moda9Image,
+    tone: "sand",
+    excerpt:
+      "Imagen de referencia para continuidad de estilo, textura y direccion de pose."
   }
 ];

@@ -14,7 +14,7 @@ export default function PostCard({ post }) {
   const [hasImageError, setHasImageError] = useState(false);
   const tone = useMemo(() => toneMap[post.tone] ?? toneMap.sand, [post.tone]);
   const showImage = Boolean(post.image) && !hasImageError;
-  const detailPath = post.to || "/imagenes";
+  const detailPath = post.to || `/imagenes/${post.id}`;
 
   return (
     <article className="group overflow-hidden rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)]">
@@ -24,6 +24,7 @@ export default function PostCard({ post }) {
             src={post.image}
             alt={post.title}
             className="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+            style={{ objectPosition: post.imagePosition ?? "center" }}
             loading="lazy"
             onError={() => setHasImageError(true)}
           />

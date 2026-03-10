@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import BackButton from "../components/BackButton";
 import { methodSections } from "../data/methodSections";
 
 export default function MetodoCreativoDetailPage() {
@@ -23,12 +24,15 @@ export default function MetodoCreativoDetailPage() {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
-      <Link
-        to="/metodo-creativo"
-        className="text-[11px] uppercase tracking-[0.2em] text-[var(--as-text-soft)]"
-      >
-        Metodo Creativo
-      </Link>
+      <div className="flex items-center gap-4">
+        <BackButton fallbackTo="/metodo-creativo" />
+        <Link
+          to="/metodo-creativo"
+          className="text-[11px] uppercase tracking-[0.2em] text-[var(--as-text-soft)]"
+        >
+          Metodo Creativo
+        </Link>
+      </div>
 
       <h1 className="mt-4 font-['Cormorant_Garamond'] text-6xl leading-[0.92] text-[var(--as-text)]">
         {section.title}
