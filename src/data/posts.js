@@ -6,14 +6,17 @@ import moda5Small from "../assets/img/moda5-s.webp";
 import moda6Small from "../assets/img/moda6-s.webp";
 import moda7Small from "../assets/img/moda7-s.webp";
 import moda9Image from "../assets/img/moda9.webp";
+import procesoCreativo5 from "../assets/img/proceso creativo/proceso-creativo5.webp";
+import bocetajeCover from "../assets/img/bocetaje/moda9.webp";
 
 export const posts = [
   {
     id: "procesos-creativos",
     title: "Procesos creativos",
     category: "Brief",
-    season: "Primavera 2026",
-    image: moda1Small,
+    season: "2026",
+    image: procesoCreativo5,
+    imagePosition: "center 60%",
     tone: "sand",
     to: "/metodo-creativo/procesos-creativos",
     excerpt:
@@ -23,7 +26,7 @@ export const posts = [
     id: "colecciones",
     title: "Colecciones",
     category: "Serie",
-    season: "Invierno 2026",
+    season: "2026",
     image: moda2Small,
     imagePosition: "center 18%",
     tone: "ink",
@@ -36,7 +39,8 @@ export const posts = [
     title: "Bocetaje",
     category: "Sketchbook",
     season: "2026",
-    image: moda3Small,
+    image: bocetajeCover,
+    imagePosition: "center 60%",
     tone: "plum",
     to: "/metodo-creativo/bocetaje",
     excerpt:

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useTheme } from "../hooks/useTheme";
 
@@ -27,12 +27,15 @@ export default function Hero({ videoSrc = "/media/hero-fashion.mp4", videoSource
       {activeSource && !hasVideoError ? (
         <motion.video
           key={activeSource.src}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           autoPlay
           loop
           muted
           playsInline
           preload="metadata"
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
           onError={() => setHasVideoError(true)}
           initial={{ opacity: 0.6 }}
           animate={{ opacity: 1 }}

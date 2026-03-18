@@ -27,7 +27,8 @@ export default function MetodoCreativoPage() {
                 <img
                   src={section.image}
                   alt={section.title}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-center"
+                  style={{ objectPosition: section.imagePosition ?? "center" }}
                   loading="lazy"
                 />
               ) : (

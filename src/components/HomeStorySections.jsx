@@ -21,7 +21,7 @@ const storyBlocks = [
     visualLabel: "Moodboard 02",
     image: moda6Small,
     ctaLabel: "Ver Imagenes",
-    ctaTo: "/imagenes",
+    ctaTo: "/proyectos#editorial-privada",
     gradient: "from-[#42454f] via-[#2a2d35] to-[#16181d]",
     reverse: true
   }

@@ -1,11 +1,22 @@
 import { Link, useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
+import ImageGalleryGrid from "../components/ImageGalleryGrid";
 import { methodSections } from "../data/methodSections";
+import { collectionImages, processCreativeImages, sketchImages } from "../data/media";
 
 export default function MetodoCreativoDetailPage() {
   const { sectionId } = useParams();
   const section = methodSections.find((item) => item.id === sectionId);
-
+  const isProcessCreative = sectionId === "procesos-creativos";
+  const isCollections = sectionId === "colecciones";
+  const isSketching = sectionId === "bocetaje";
+  const galleryImages = isProcessCreative
+    ? processCreativeImages
+    : isCollections
+      ? collectionImages
+      : isSketching
+        ? sketchImages
+        : [];
   if (!section) {
     return (
       <main className="mx-auto w-full max-w-4xl px-4 pb-16 pt-28 sm:px-6">
@@ -43,18 +54,32 @@ export default function MetodoCreativoDetailPage() {
 
       <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
         <article className="overflow-hidden rounded-[1.8rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)]">
-          <div className="h-80 bg-[var(--as-panel)]">
-            {section.image ? (
-              <img
-                src={section.image}
-                alt={section.title}
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-            ) : (
-              <div className="h-full w-full bg-gradient-to-br from-[#4d535f] to-[#22262e]" />
-            )}
-          </div>
+          {isProcessCreative || isCollections || isSketching ? (
+            <ImageGalleryGrid
+              images={galleryImages}
+              title={section.title}
+              kicker="Metodo creativo"
+              itemLabel={section.title}
+              wrapperClassName="p-4"
+              gridClassName="grid-cols-2 sm:grid-cols-3"
+              imageClassName="h-40 sm:h-44 lg:h-48"
+              emptyClassName="h-80 bg-gradient-to-br from-[#4d535f] to-[#22262e]"
+            />
+          ) : (
+            <div className="h-80 bg-[var(--as-panel)]">
+              {section.image ? (
+                <img
+                  src={section.image}
+                  alt={section.title}
+                  className="h-full w-full object-cover object-center"
+                  style={{ objectPosition: section.imagePosition ?? "center" }}
+                  loading="lazy"
+                />
+              ) : (
+                <div className="h-full w-full bg-gradient-to-br from-[#4d535f] to-[#22262e]" />
+              )}
+            </div>
+          )}
         </article>
 
         <article className="rounded-[1.8rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-6">
@@ -70,6 +95,7 @@ export default function MetodoCreativoDetailPage() {
           </ul>
         </article>
       </section>
+
     </main>
   );
 }

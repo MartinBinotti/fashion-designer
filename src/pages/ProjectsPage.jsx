@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import modaVideo2 from "../assets/video/moda-video2.mp4";
 import modaVideo3 from "../assets/video/moda.video3.mp4";
 import modaVideo4 from "../assets/video/moda-video4.mp4?url";
+import { bridalImages, editorialImages } from "../data/media";
+import doc1 from "../assets/img/doc1.webp";
+import doc2 from "../assets/img/doc2.webp";
+import ImageGalleryGrid from "../components/ImageGalleryGrid";
 
 const LAB_PROJECT_ID = "laboratorio-de-siluetas";
+const BRIDAL_PROJECT_ID = "vestido-de-novias";
+const EDITORIAL_PROJECT_ID = "editorial-privada";
 
 const projectNotes = [
   {
-    id: "vestido-de-novias",
+    id: BRIDAL_PROJECT_ID,
     title: "Vestido de novias",
     status: "Proceso activo",
     summary:
       "Diseno y confeccion de una nueva pieza para la coleccion de vestidos de novia del Bridal de Barcelona."
   },
   {
-    id: "editorial-privada",
+    id: EDITORIAL_PROJECT_ID,
     title: "Editorial privada",
     status: "Pre-produccion",
     summary:
@@ -56,7 +63,8 @@ const finishedProjects = [
     status: "Finalizado",
     summary:
       "Documento final con desarrollo conceptual, estructura de propuesta y resultado consolidado.",
-    pdfUrl: "/docs/busines-case-completo.pdf"
+    pdfUrl: "/docs/busines-case-completo.pdf",
+    image: doc1
   },
   {
     id: "essex",
@@ -64,24 +72,39 @@ const finishedProjects = [
     status: "Finalizado",
     summary:
       "Trabajo cerrado con narrativa visual, investigacion aplicada y presentacion final.",
-    pdfUrl: "/docs/ESSEX-Ecompressed.pdf"
+    pdfUrl: "/docs/ESSEX-Ecompressed.pdf",
+    image: doc2
   }
 ];
 
 export default function ProjectsPage() {
-  const [isLabOpen, setIsLabOpen] = useState(false);
+  const location = useLocation();
+  const [openProjectId, setOpenProjectId] = useState(null);
   const [activePdf, setActivePdf] = useState(null);
 
-  const toggleLabVideos = () => {
-    setIsLabOpen((currentState) => !currentState);
+  const toggleOpenProject = (projectId) => {
+    setOpenProjectId((current) => (current === projectId ? null : projectId));
   };
 
-  const handleLabCardKeyDown = (event) => {
+  const handleGalleryCardKeyDown = (projectId) => (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      toggleLabVideos();
+      toggleOpenProject(projectId);
     }
   };
+
+  const handleLabCardKeyDown = handleGalleryCardKeyDown(LAB_PROJECT_ID);
+
+  useEffect(() => {
+    const hashId = location.hash.replace("#", "");
+    if (!hashId) {
+      return;
+    }
+
+    if ([BRIDAL_PROJECT_ID, EDITORIAL_PROJECT_ID, LAB_PROJECT_ID].includes(hashId)) {
+      setOpenProjectId(hashId);
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -120,22 +143,50 @@ export default function ProjectsPage() {
 
       <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {projectNotes.map((project) => {
+          const isBridalProject = project.id === BRIDAL_PROJECT_ID;
+          const isEditorialProject = project.id === EDITORIAL_PROJECT_ID;
           const isLabProject = project.id === LAB_PROJECT_ID;
+          const isGalleryProject = isBridalProject || isEditorialProject;
+          const isGalleryOpen = openProjectId === project.id;
 
           return (
             <article
               key={project.id}
-              className={`rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-6 ${
-                isLabProject
+              className={`rounded-[1.5rem] border bg-[var(--as-glass-soft)] p-6 ${
+                isGalleryOpen
+                  ? "border-[color:var(--as-border-strong)] shadow-glass"
+                  : "border-[color:var(--as-border)]"
+              } ${
+                isLabProject || isGalleryProject
                   ? "cursor-pointer transition hover:border-[color:var(--as-border-strong)]"
                   : ""
               }`}
-              onClick={isLabProject ? toggleLabVideos : undefined}
-              onKeyDown={isLabProject ? handleLabCardKeyDown : undefined}
-              role={isLabProject ? "button" : undefined}
-              tabIndex={isLabProject ? 0 : undefined}
-              aria-expanded={isLabProject ? isLabOpen : undefined}
-              aria-controls={isLabProject ? "lab-videos-panel" : undefined}
+              onClick={
+                isLabProject || isGalleryProject
+                  ? () => toggleOpenProject(project.id)
+                  : undefined
+              }
+              onKeyDown={
+                isLabProject
+                  ? handleLabCardKeyDown
+                  : isGalleryProject
+                    ? handleGalleryCardKeyDown(project.id)
+                    : undefined
+              }
+              role={isLabProject || isGalleryProject ? "button" : undefined}
+              tabIndex={isLabProject || isGalleryProject ? 0 : undefined}
+              aria-expanded={
+                isLabProject || isGalleryProject ? isGalleryOpen : undefined
+              }
+              aria-controls={
+                isLabProject
+                  ? "lab-videos-panel"
+                  : isBridalProject
+                    ? "bridal-images-panel"
+                    : isEditorialProject
+                      ? "editorial-images-panel"
+                      : undefined
+              }
             >
               <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--as-text-soft)]">
                 {project.status}
@@ -146,9 +197,15 @@ export default function ProjectsPage() {
               <p className="mt-4 text-sm leading-relaxed text-[var(--as-text-muted)]">
                 {project.summary}
               </p>
-              {isLabProject ? (
+              {isLabProject || isGalleryProject ? (
                 <p className="mt-5 text-[10px] uppercase tracking-[0.24em] text-[var(--as-text-soft)]">
-                  {isLabOpen ? "Ocultar videos" : "Click para ver videos"}
+                  {isLabProject
+                    ? isGalleryOpen
+                      ? "Ocultar videos"
+                      : "Click para ver videos"
+                    : isGalleryOpen
+                      ? "Ocultar imagenes"
+                      : "Click para ver imagenes"}
                 </p>
               ) : null}
             </article>
@@ -156,7 +213,63 @@ export default function ProjectsPage() {
         })}
       </section>
 
-      {isLabOpen ? (
+      {openProjectId === BRIDAL_PROJECT_ID ? (
+        <section
+          id="bridal-images-panel"
+          className="mt-6 rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-5 sm:p-6"
+        >
+          <header className="mb-5">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--as-text-soft)]">
+              Vestido de novias
+            </p>
+            <h2 className="mt-2 font-['Cormorant_Garamond'] text-4xl leading-[0.95] text-[var(--as-text)] sm:text-5xl">
+              Galeria
+            </h2>
+          </header>
+          {bridalImages.length > 0 ? (
+            <ImageGalleryGrid
+              images={bridalImages}
+              title="Vestido de novias"
+              kicker="Proyectos"
+              itemLabel="Vestido de novias"
+              gridClassName="sm:grid-cols-2 lg:grid-cols-3"
+              imageClassName="h-48 sm:h-56 lg:h-60"
+            />
+          ) : (
+            <div className="h-48 rounded-2xl border border-[color:var(--as-border)] bg-gradient-to-br from-[#4d535f] to-[#22262e]" />
+          )}
+        </section>
+      ) : null}
+
+      {openProjectId === EDITORIAL_PROJECT_ID ? (
+        <section
+          id="editorial-images-panel"
+          className="mt-6 rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-5 sm:p-6"
+        >
+          <header className="mb-5">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--as-text-soft)]">
+              Editorial privada
+            </p>
+            <h2 className="mt-2 font-['Cormorant_Garamond'] text-4xl leading-[0.95] text-[var(--as-text)] sm:text-5xl">
+              Galeria
+            </h2>
+          </header>
+          {editorialImages.length > 0 ? (
+            <ImageGalleryGrid
+              images={editorialImages}
+              title="Editorial privada"
+              kicker="Proyectos"
+              itemLabel="Editorial privada"
+              gridClassName="sm:grid-cols-2 lg:grid-cols-3"
+              imageClassName="h-48 sm:h-56 lg:h-60"
+            />
+          ) : (
+            <div className="h-48 rounded-2xl border border-[color:var(--as-border)] bg-gradient-to-br from-[#4d535f] to-[#22262e]" />
+          )}
+        </section>
+      ) : null}
+
+      {openProjectId === LAB_PROJECT_ID ? (
         <section
           id="lab-videos-panel"
           className="mt-6 rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-5 sm:p-6"
@@ -217,6 +330,16 @@ export default function ProjectsPage() {
               key={project.id}
               className="rounded-[1.5rem] border border-[color:var(--as-border)] bg-[var(--as-glass-soft)] p-6"
             >
+              {project.image ? (
+                <div className="mb-5 overflow-hidden rounded-[1.25rem] border border-[color:var(--as-border)] bg-[var(--as-panel)]">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="h-44 w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
               <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--as-text-soft)]">
                 {project.status}
               </p>
@@ -275,6 +398,7 @@ export default function ProjectsPage() {
           </article>
         </div>
       ) : null}
+
     </main>
   );
 }
